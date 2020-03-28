@@ -30,6 +30,56 @@ rules:
   resources: ["storageclasses"]
   verbs: ["get", "list", "watch"]
 ---
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: csi-lvm-controller-psp-PRTAG
+  namespace: PRTAG
+spec:
+  allowPrivilegeEscalation: true
+  privileged: true
+  fsGroup:
+    rule: RunAsAny
+  privileged: true
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  volumes:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: csi-lvm-controller-psp-PRTAG
+  namespace: PRTAG
+rules:
+- apiGroups:
+  - extensions
+  resources:
+  - podsecuritypolicies
+  resourceNames:
+  - csi-lvm-controller-psp-PRTAG
+  verbs:
+  - use
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: csi-lvm-controller-psp-PRTAG
+  namespace: PRTAG
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: csi-lvm-controller-psp-PRTAG
+subjects:
+- apiGroup: ""
+  kind: ServiceAccount
+  name: csi-lvm-reviver-PRTAG
+  namespace: PRTAG
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
