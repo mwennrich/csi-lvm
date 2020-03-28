@@ -1,4 +1,4 @@
-name: "CI job using minikube"
+name: "CI job using metal"
 on: [pull_request]
  
 jobs:

@@ -45,4 +45,4 @@ tests:
 .PHONY: metalci
 metalci: dockerimages dockerpush
 	docker build -t csi-lvm-tests:${DOCKER_TAG} --build-arg prtag=${DOCKER_TAG} --build-arg prpullpolicy="Always" --build-arg prdevicepattern='nvme[0-9]n[0-9]' tests > /dev/null
-	docker run --rm csi-lvm-tests:${DOCKER_TAG} bats /bats/start.bats /bats/cycle.bats /bats/end.bats'
+	docker run --rm csi-lvm-tests:${DOCKER_TAG} bats /bats/start.bats /bats/cycle.bats /bats/end.bats
